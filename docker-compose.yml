@@ -1,0 +1,98 @@
+#version: "3.9"
+#services:
+#  mysqlservice:
+#    image: mysql
+#    ports:
+#      - 3306:3306
+#    container_name: mysql_container
+#    networks:
+#      - mynet2
+#    environment:
+#      MYSQL_ROOT_PASSWORD: Vishnu007@
+#      MYSQL_USERNAME: root
+#      MYSQL_PASSWORD: Vishnu007@
+#      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+#
+#  mongodbservice:
+#    image: mongo:3.6
+#    container_name: mongo_container
+#    networks:
+#      - mynet2
+#    ports:
+#      - 27017:27017
+#
+#  login:
+#    container_name: login
+#    image: login_image
+#    build: login/
+#    networks:
+#      - mynet2
+#    ports:
+#      - 9999:9999
+#    depends_on:
+#      - mysqlservice
+#      - eurekaServer
+#      - cloudapiservice
+#    restart: always
+#
+#  kanban:
+#    container_name: kanban-service
+#    image: login_image
+#    build: Kanban/
+#    networks:
+#      - mynet2
+#    ports:
+#      - 8888:8888
+#    depends_on:
+#      - mongodbservice
+#      - eurekaServer
+#      - cloudapiservice
+#      - login
+#    restart: always
+#
+#
+#  emailsender:
+#    container_name: email_sender
+#    image: email_sender_image
+#    build: emailsender/
+#    networks:
+#      - mynet2
+#    ports:
+#      - 7575:7575
+#    depends_on:
+#      - mongodbservice
+#      - eurekaServer
+#      - cloudapiservice
+#
+#  gateway-api:
+#    container_name: gateway-api
+#    image: gateway-api_image
+#    build: gateway-api/
+#    restart: always
+#    networks:
+#      - mynet2
+#    ports:
+#      - 5555:5555
+#    environment:
+#      API_GATEWAY_PORT: 5555
+#      EUREKA_SERVER_IP: localhost
+#      EUREKA_SERVER_PORT: 8761
+#    depends_on:
+#      - eurekaServer
+#
+#
+#  eurekaServer:
+#    container_name: eurekaServer
+#    image: eureka-server-image
+#    build: EurekaServer/
+#    restart: always
+#    networks:
+#      - mynet2
+#    environment:
+#      EUREKA_SERVER_PORT: 8761
+#    ports:
+#      - 8761:8761
+#
+#networks:
+#  mynet2:
+#    driver: bridge
